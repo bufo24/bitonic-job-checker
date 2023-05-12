@@ -20,7 +20,7 @@ jobs:
       - name: Install npm deps
         run: npm i
 
-      - run: npm run job-checker ${{ vars.BUSINESS_NAME }} ${{ vars.JOB_KEYWORD }}
+      - run: npm run job-checker vacancies ${{ vars.BUSINESS_NAME }} ${{ vars.JOB_KEYWORD }}
         env:
           NOSTR_PRIV_KEY: ${{ secrets.NOSTR_PRIV_KEY }}
           NOSTR_RECIPIENT: ${{ secrets.NOSTR_RECIPIENT }}
