@@ -15,6 +15,7 @@
     "dotenv": "^16.0.3",
     "nostr-tools": "^1.10.1",
     "puppeteer": "^20.2.0",
+    "ts-node": "^10.9.1",
     "websocket-polyfill": "^0.0.3"
   }
 }
