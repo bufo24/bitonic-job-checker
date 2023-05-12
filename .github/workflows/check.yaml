@@ -8,13 +8,19 @@ jobs:
   Job-Checker:
     runs-on: "ubuntu-latest"
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup NodeJS 20
+        uses: actions/setup-node@v3
         with:
           node-version: 20
           cache: "npm"
-      - run: npm i
-      - run: npm run job-checker ${{ secrets.BUSINESS_NAME }} ${{ secrets.JOB_KEYWORD }}
+
+      - name: Install npm deps
+        run: npm i
+
+      - run: npm run job-checker ${{ vars.BUSINESS_NAME }} ${{ vars.JOB_KEYWORD }}
         env:
           NOSTR_PRIV_KEY: ${{ secrets.NOSTR_PRIV_KEY }}
           NOSTR_RECIPIENT: ${{ secrets.NOSTR_RECIPIENT }}
