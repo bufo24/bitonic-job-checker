@@ -1,31 +1,34 @@
-import { BitonicJobChecker } from "./browser/bitonic";
+import { JobChecker } from "./modules/browser";
+import { Nostr } from "./modules/nostr";
 import dotenv from "dotenv";
-import { Nostr } from "./nostr/nostr";
+import { getJobInput } from "./modules/websites";
 
 dotenv.config();
 
 const nostrKey = process.env.NOSTR_PRIV_KEY;
+const nostrRecipient = process.env.NOSTR_RECIPIENT;
+const nostrRelay = process.env.NOSTR_RELAY;
 
-if (!nostrKey) {
-  throw new Error(`No nostr key found`);
+if (!nostrKey || !nostrRecipient || !nostrRelay) {
+  throw new Error(`Not all environment variables are defined`);
 }
 
-const nostr = new Nostr(nostrKey, "wss://relay.nostr.vet");
+const nostr = new Nostr(nostrKey, nostrRelay);
 
-const bitonicJobChecker = new BitonicJobChecker(
-  "https://bitonic.nl/jobs",
-  ".jobs__list.article-list > article > a > h3.article-list__article-title"
-);
-
-(async () => {
-  const jobs = await bitonicJobChecker.getVacancies();
-  jobs.forEach(async (job) => {
-    if (job.includes("engineer")) {
-      await nostr.sendMessage(
-        "6754f561a7165c4e2e109b49867d88bd5695e90dbb67a95cb4132e3a0f16f679",
-        `Bitonic is looking for: ${job}`
-      );
-    }
-  });
+export async function request(
+  business: string,
+  keyword: string
+): Promise<void> {
+  if (!nostrRecipient) {
+    throw new Error(`No nostr recipient enabled`);
+  }
+  const jobInputData = await getJobInput(business);
+  const jobChecker = new JobChecker(jobInputData.jobUrl, jobInputData.selector);
+  const jobs = await jobChecker.getVacancies();
+  const filteredJobs = jobs.filter((job) => job.includes(keyword));
+  await nostr.sendMessage(
+    nostrRecipient,
+    `${business} is looking for: ${filteredJobs.join(", ")}`
+  );
   return;
-})();
+}

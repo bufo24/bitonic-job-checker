@@ -1,6 +1,6 @@
 import { MyBrowser } from "./browser";
 
-export class BitonicJobChecker extends MyBrowser {
+export class JobChecker extends MyBrowser {
   private readonly selector: string;
   constructor(jobUrl: string, selector: string) {
     super(jobUrl);

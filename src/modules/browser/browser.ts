@@ -11,7 +11,7 @@ export class MyBrowser {
   }
 
   protected async setupBrowser(): Promise<void> {
-    this.browser = await puppeteer.launch({ headless: true });
+    this.browser = await puppeteer.launch({ headless: "new" });
     this.page = await this.browser.newPage();
   }
 
