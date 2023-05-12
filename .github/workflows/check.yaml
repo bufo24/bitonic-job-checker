@@ -1,0 +1,21 @@
+name: Job Checker
+run-name: ${{ github.actor }} is checking vacancies
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 * * * *"
+jobs:
+  Job-Checker:
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: "npm"
+      - run: npm i
+      - run: npm run job-checker ${{ secrets.BUSINESS_NAME }} ${{ secrets.JOB_KEYWORD }}
+        env:
+          NOSTR_PRIV_KEY: ${{ secrets.NOSTR_PRIV_KEY }}
+          NOSTR_RECIPIENT: ${{ secrets.NOSTR_RECIPIENT }}
+          NOSTR_RELAY: ${{ secrets.NOSTR_RELAY }}
