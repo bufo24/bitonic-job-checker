@@ -39,5 +39,6 @@ export class Nostr {
     pub.on("failed", (reason: string) => {
       console.error(`failed to publish to ${this.relay.url}: ${reason}`);
     });
+    this.relay.close();
   }
 }
