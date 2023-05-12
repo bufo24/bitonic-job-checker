@@ -1,0 +1,16 @@
+{
+  "name": "bitonic-job-checker",
+  "version": "1.0.0",
+  "description": "A bot which checks if a role is available",
+  "main": "index.js",
+  "repository": "https://github.com/bufo24/bitonic-job-checker",
+  "author": "Bufo",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "nostr-tools": "^1.10.1",
+    "puppeteer": "^20.2.0",
+    "websocket-polyfill": "^0.0.3"
+  }
+}
