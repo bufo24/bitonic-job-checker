@@ -1,2 +1,2 @@
 export * from "./browser";
-export * from "./bitonic";
+export * from "./job-checker";
